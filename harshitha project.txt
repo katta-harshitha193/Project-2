@@ -1,0 +1,136 @@
+                               Project-2
+
+IMPLEMENTATION -REPORT ANALYSIS:
+
+Module-1:VPC(virtual private cloud):
+
+This module focuses on creating virtual private cloud in AWS.A VPC provides a secure and isolated network environment deploying AWS resource.
+
+1.Creating VPC:A new VPC was created to establish a private network in a AWS.
+2. Set name for VPC: An appropriate name was assigned to identify the VPC easily.
+3. Select No IPv6 CIDR Block:IPv6 addressing was not enabled, and only IPv4 addresses where used.
+4. Set availability zones -2:Two Availability zones were selected to improve high availability and fault tolerance.
+5. Public Subnets-2:Two Public Subnets were created to host resources that require internet access.
+6. Private Subnet-2:Two Private Subnets were created for secure resources that do not need direct internet connectivity.
+7. NAT Gatway-1 per zone: A NAT Gateway was configured in each availability zone to allow private instances to access the                                                               
+   internet securely.
+8. VPC Endpoints -None: No VPC Endpoint were configured in this implementation.
+9. Create or Launch VPC: After configuring all settings, the VPC was successfully launched.
+10. Check VPC creation: The created VPC and its associated components were verified in the AWS Management consol.
+
+Conclusion:
+                The VPC was successfully created with two availability zones, private and public subnets and NAT Gateways. This architecture provides secure networking, high availability, and better resource management in the AWS cloud environment.
+
+Module-2:Auto Scaling Groups-Report Analysis:
+
+This module explained the creation and configuration of an Auto Scaling Group in AWS. Auto Scaling automatically increases or decreases the number of EC2 instances based on applications demand, ensuring high availability and better performance.
+
+Steps Performed:
+
+1.Searched for the EC2 service in the AWS management console.
+2.Opened Auto Scaling Groups option from the EC2 sidebar.
+3.Before creating an Auto Scaling Groups, a launch Template was created.
+4.Entered the template name and description.
+5.Selected ubuntu as the amazon machine image(AMI).
+6.Choose the t3. micro instance type for the EC2 instance.
+7.Created a new pair for the secured SSH access.
+8. Created a new security group and provided its name and description.
+9. Selected the previously created VPC.
+10.Configured inbound rules allowing:
+ . Custom TCP port 8000 from anywhere.
+ .SSH(port 22)from anywhere
+11. Created the launch templet successfully.
+12.Refreshed the Auto Scaling Group page to use the newly created template.
+
+Conclusion:
+
+The launched template was successfully created and used for configuring the Auto Scaling Group. Auto Scaling helps maintain application availability by automatically managing EC2 instance according to traffic demands, improving scalability, reliability, and fault tolerance in the AWS environmental.
+
+Module-3:Auto Scaling Groups Configuration-Report analysis:
+
+This module focuses on creating and configuring an Auto Scaling Group(ASG)using the previously created launch template and VPC. The Auto Scaling Group automatically manage EC2 instance to ensure application availability and scalability.
+
+Steps Performed:
+1.1Created a new Auto Scaling Group in AWS.
+2.Entered the Auto Scaling Group Name.
+3.Seleced the previously created launch template.
+4.Choose the existing VPC.
+5.Selected private subnet 1 and private subnet 2 as the availability zone.
+6.Proceeded to the next configuration step.
+7.Choose no Load Balancer for this setup.
+8.Congfigured the instance capacity settings:
+.Desired capacity :2 instances
+.Minimum capacity :1 instance 
+.Maximum capacity :4 instances
+9.Set the scaling Policy to None.
+10.Skipped the notification configuration.
+11.Launched the Auto Scaling Group Successfully.
+12.Verified that two EC2 instances were automatically created in the private subnets.
+
+Conclusion:
+
+The Auto Scaling Group was successfully configured using the launch template and private subnets. AWS automatically launched two EC2 instances based on the desired capacity setting. This configuration improves applications availability, scalability, and fault tolerance by automatically managing EC2 instances according to the defined capacity limits.
+
+Module-4:Installing Applications on Private Subnets using Basting Host-Report Analysis:
+
+This module explains how to access private subnets installing on EC2 instances. Since private subnet instances do not have public IP addresses, a Bastion Host is created in the public subnet to securely access them.
+
+Step Performed:
+1.Searched the for the EC2 instance service in the AWS management console.
+2.Created a new EC2 instance similar to the previous instance creation process.
+3.Configured the instance with:
+.Name 
+.Ubuntu AMI
+.t3. micro instance type.
+.Key pair
+4.Created a new Security Group.
+5.Allowed SSH traffic(port 22)anywhere for secure remote access.
+6.Editing the network settings and selected the previously created VPC.
+7.Choose public subnet-1 for launching the Bastion Host
+8.Enable Auto-Assign Public IP address.
+9.Lanched the EC2 instance successfully as a Bastion Host.
+
+Conclusion:
+
+The Bastion Host was successfully created in the public subnet configured with a public IP address. It acts as a secure gateway to access EC2 instance running in private subnets. This setup improves security by preventing direct internet access to private instances while still allowing administrators to manage and install applications on them safely.
+
+Module-5:Mobaxterm Configuration-Report Analysis:
+
+This module explains how to use MOBAXTERM to securely connecting to the Bastion Host and access EC2 instance running in private subnets through SSH.
+
+Steps Performed:
+1.Opened the MOBAXTERM application.
+2.Clicked on New session.
+3.Selected the SSH connecting type.
+4.Entered the public IP address of the Bastion Host in the remote Host filed.
+5.Provided the user name ubuntu.
+6.Selected the previously created new key pair(.Pem file).
+7.Connected to the Bastion Host and opened the terminal.
+8.Used the SFTP Panel to transfer the. Pem file to use terminal.
+9.Changed the file permissions using the following command.
+10.Copies the Private IP Address of the EC2 instance in the private subnet.
+11.Connected to the private instance using the command.
+12.Successfully accessed the EC2instance in the private subnet through the Bastion Host.
+
+Conclusion:
+
+MOBAXTERM was successfully used to establish a secure SSH connection to the Bastion Host and then access the private EC2 instances. This method provides secure administration of private subnet resources without exposing them directly to the internet, improving the overall security of the AWS environment.
+
+Module-6:File(Adding a File Using Editor)Report Analysis:
+
+This experiment explains how to create and edit an HTML file using the VIM editor in Linux. First, the command vim index.html is used to create or open the file. After pressing i, the editor HTML code such as <h1> and <p> tags. Once the content is enters, Esc is pressed to exit insert Mode. the command :Wq is then used to save the file and quit the editor. Finally, the command cat index.html displays the content of the file on the terminal.
+
+Conclusion:
+
+This module helped in understanding file creation and editing in Linux using the VIM editor. It also provided practical knowledge of saving, exiting, and viewing file contents through terminal commands.
+
+Module-7:Load Balancer-Report Analysis:
+
+This experiment explains the process of creating an Application Load Balancer(ALB) in AWS and configuring with a Target Groups. Initially, a Target Group is created by Selecting two public EC2 and s instance and setting the application port to HTTP 8000.
+After creating the Target Group, an Application Load Balancer is configured by providing a name, selecting the Internet-Facing scheme, choosing the IPv4 address type, selecting the required VPC, and enable two public subnets in different Availability zones. The previously created security group is then attached to the Load Balancer. 
+
+After the Load Balancer is created successfully AWS generates a DNS URL the can be opened in a web browser to access the application. If the website is not accessible, the security group inbound rules must be update to allow port 8000 and SSH port 22.this experiment demonstrates how Load Balancer distribute traffic across multiple EC2 instance and improve application availability and reliability.
+
+Conclusion:
+
+The Load Balancer was successfully created connected to multiple EC2 instance through a Target Group. This setup provides high availability, fault tolerance, and efficient traffic distributing for wed application running in AWS.                                                                     
